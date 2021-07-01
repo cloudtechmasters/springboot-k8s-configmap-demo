@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-deployment
+  labels:
+    app: springboot
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: springboot
+  template:
+    metadata:
+      labels:
+        app: springboot
+    spec:
+      containers:
+      - name: springboot-k8s-configmap-demo
+        image: cloudtechmasters/springboot-k8s-configmap-demo:latest
+        ports:
+        - containerPort: 22222
+        env:
+          - name: GREETING_PREFIX
+            valueFrom:
+              configMapKeyRef:
+                name: spring-boot-configmaps-demo
+                key: greeter.prefix 
